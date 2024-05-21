@@ -10,8 +10,9 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import os
 import time
-
-from mtg_jamendo_dataset.scripts import commons
+import tempfile
+import shutil
+# from mtg_jamendo_dataset.scripts import commons
 
 # Constants
 TAG_HYPHEN = '---'
@@ -24,12 +25,12 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # Load the data from the input file
 input_file = 'data/raw_30s_cleantags_50artists.tsv'
-tracks, tags, extra = commons.read_file(input_file)
+# tracks, tags, extra = commons.read_file(input_file)
 
 
 def read_metadata_file(tsv_file):
     metadata = {}
-    with open(tsv_file) as fp:
+    with open(tsv_file, encoding='utf-8') as fp:
         reader = csv.reader(fp, delimiter='\t')
         next(reader, None)  # skip header
         for row in reader:
@@ -88,20 +89,19 @@ def scroll_to_bottom(driver):
 
 
 def scrape_dynamic_content(url, retries=3):
-    chrome_driver_path = '/Users/kharlashkin/Downloads/chromedriver-mac-arm64/chromedriver'
+    chrome_driver_path = r'C:/Users/levkh\Downloads/chromedriver-win64/chromedriver-win64/chromedriver.exe'    
+    # chrome_driver_path = '/Users/kharlashkin/Downloads/chromedriver-mac-arm64/chromedriver'
     options = Options()
-    options.add_argument('--headless')
+    # options.add_argument('--headless')
     options.add_argument('--no-sandbox')
     options.add_argument('--disable-dev-shm-usage')
     options.add_argument('--disable-gpu')
     options.add_argument('--window-size=1920,1200')
-    options.add_argument(
-        '--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3')
 
-    # Experimental options to mimic a real user environment
-    options.add_argument('--disable-blink-features=AutomationControlled')
-    options.add_experimental_option('excludeSwitches', ['enable-automation'])
-    options.add_experimental_option('useAutomationExtension', False)
+    # Create a temporary directory for Chrome to use    
+    temp_dir = tempfile.mkdtemp()     
+    options.add_argument(f'--user-data-dir={temp_dir}')
+
 
     service = Service(chrome_driver_path)
     driver = webdriver.Chrome(service=service, options=options)
@@ -126,6 +126,7 @@ def scrape_dynamic_content(url, retries=3):
 
     finally:
         driver.quit()
+        shutil.rmtree(temp_dir)
 
 
 # Iterate through the filtered metadata and parse each web page
