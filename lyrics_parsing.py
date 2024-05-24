@@ -10,7 +10,7 @@ from selenium.webdriver.support import expected_conditions as EC
 import os
 import time
 import tempfile
-import shutil  # Add this import
+import shutil
 
 # from mtg_jamendo_dataset.scripts import commons
 
