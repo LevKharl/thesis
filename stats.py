@@ -121,3 +121,30 @@ for limit in word_limits:
     count = count_short_descriptions(file_path, limit)
     print(
         f"Number of files with short descriptions (less than {limit} words): {count}")
+
+
+def count_tracks_with_lyrics_and_descriptions(lyrics_file, descriptions_file):
+    """
+    Count the number of tracks that have both lyrics and descriptions.
+
+    :param lyrics_folder: Path to the folder containing the lyrics
+    :param descriptions_file: Path to the CSV file containing the descriptions
+    :return: Number of tracks with both lyrics and descriptions
+    """
+    try:
+        lyrics = pd.read_csv(lyrics_file)
+        descriptions = pd.read_csv(descriptions_file)
+        number = 0
+        for track_id in lyrics['track_id']:
+            if track_id in descriptions['track_id'].values:
+                number += 1
+    except FileNotFoundError:
+        return "The specified file was not found."
+    except Exception as e:
+        return f"An error occurred: {e}"
+
+    return number
+
+
+print(
+    f"Number of tracks with both lyrics and descriptions: {count_tracks_with_lyrics_and_descriptions('data/lyrics.csv', 'data/filtered_descriptions.csv')}")

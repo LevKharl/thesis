@@ -1,26 +1,3 @@
-# from bs4 import BeautifulSoup
-
-# # Read the HTML file
-# with open('lyrics/lyrics_0000215.html', 'r', encoding='utf-8') as file:
-#     html_content = file.read()
-
-# # Parse the HTML content using BeautifulSoup
-# soup = BeautifulSoup(html_content, 'html.parser')
-
-# # Find the div or any other tag that contains the lyrics
-# # In this example, the lyrics are within a div with class 'col-sm-offset-2 col-sm-8 col-sm-offset-3 col-md-6'
-# lyrics_div = soup.find(
-#     'div', class_='col-sm-offset-2 col-sm-8 col-sm-offset-3 col-md-6')
-
-# # Extract the text content of the lyrics
-# if lyrics_div:
-#     lyrics = lyrics_div.get_text(separator='\n', strip=True)
-#     print("Lyrics extracted successfully:")
-#     print(lyrics)
-# else:
-#     print("Lyrics not found in the HTML file.")
-
-
 import os
 import pandas as pd
 from bs4 import BeautifulSoup
