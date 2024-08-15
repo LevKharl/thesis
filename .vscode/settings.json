@@ -1,5 +1,6 @@
 {
     "python.analysis.extraPaths": [
-        "./mtg-jamendo-dataset/scripts"
+        "./mtg-jamendo-dataset/scripts",
+        "./tango/mustango"
     ]
 }
