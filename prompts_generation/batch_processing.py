@@ -14,7 +14,7 @@ destination_uri_prefix = "gs://lev_thesis/results/"
 # Define optional model parameters (if any specific settings are needed)
 model_parameters = {
     "max_output_tokens": 50,
-    "temperature": 0.4,
+    "temperature": 0.3,
     "top_k": 40,
     "top_p": 0.9
 }
@@ -30,4 +30,9 @@ batch_prediction_job = text_model.batch_predict(
 print("Batch Prediction Job Name:", batch_prediction_job.display_name)
 print("Batch Prediction Job Resource Name:",
       batch_prediction_job.resource_name)
+print("Batch Prediction Job State:", batch_prediction_job.state)
+
+# Wait for the job to complete
+batch_prediction_job.wait()
+# Print job state after completion
 print("Batch Prediction Job State:", batch_prediction_job.state)
